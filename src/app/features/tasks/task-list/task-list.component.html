@@ -1,5 +1,5 @@
-<input #taskInput type="text" placeholder="New task">
-<button (click)="addTask(taskInput.value)"> Add </button>
+<input #taskInput type="text" placeholder="New task" (keyup.enter)="addTask(taskInput)">
+<button (click)="addTask(taskInput)"> Add </button>
 <ul>
     <li *ngFor="let task of tasks"> {{task}}</li>
 </ul>
