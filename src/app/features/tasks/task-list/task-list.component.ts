@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { TaskService } from '../task.service';
 
 @Component({
   selector: 'app-task-list',
@@ -8,13 +9,25 @@ import { Component } from '@angular/core';
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.css'
 })
-export class TaskListComponent {
-    tasks: string[] = ['Learn Angular', 'Build Project'];
+export class TaskListComponent implements OnInit {
+
+    tasks: string[] = [];
+
+    private taskService = inject(TaskService);
+
+    ngOnInit(){
+      this.taskService.getTasks().subscribe(data => {
+        this.tasks = data;
+      })
+    }
 
     addTask(input: HTMLInputElement) {
-      if(input.value.trim()) {
-        this.tasks.push(input.value);
-        input.value = ''; 
+      const value = input.value.trim();
+      if(value) {
+        this.taskService.addTask(value).subscribe(data=> {
+          this.tasks = data;
+          input.value = '';
+        });
       }
     }
 }
