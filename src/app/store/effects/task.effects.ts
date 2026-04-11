@@ -10,7 +10,9 @@ import {
   loadTasks,
   loadTasksSuccess,
   addTask,
-  addTaskSuccess
+  addTaskSuccess,
+  deleteTask,
+  deleteTaskSuccess,
 } from '../actions/task.actions';
 
 @Injectable()
@@ -41,4 +43,15 @@ export class TaskEffects {
       )
     )
   );
+
+  deleteTask$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(deleteTask),
+    switchMap(action =>
+      this.taskService.deleteTask(action.id).pipe(
+        map(() => deleteTaskSuccess({ id: action.id }))
+      )
+    )
+  )
+ );
 }
