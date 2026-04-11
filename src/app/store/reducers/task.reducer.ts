@@ -1,7 +1,7 @@
 // reducers/task.reducer.ts
 import { createReducer, on } from '@ngrx/store';
 import { Task } from '../models/task.model';
-import { loadTasksSuccess, addTaskSuccess } from '../actions/task.actions';
+import { loadTasksSuccess, addTaskSuccess, deleteTaskSuccess } from '../actions/task.actions';
 
 export interface TaskState {
   tasks: Task[];
@@ -22,8 +22,15 @@ export const taskReducer = createReducer(
   on(addTaskSuccess, (state, { task }) => {
     console.log('Reducer updating state:', task, state);
     return ({
+        ...state,
+        tasks: [task, ...state.tasks]
+    })
+  }),
+
+  on(deleteTaskSuccess, (state, { id }) => ({
     ...state,
-    tasks: [task, ...state.tasks]
-  }) 
-})
+    tasks: state.tasks.filter(task => task.id !== id)
+    })
+  )
+  
 );

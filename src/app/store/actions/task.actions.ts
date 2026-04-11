@@ -16,3 +16,14 @@ export const addTaskSuccess = createAction(
   '[Task] Add Task Success',
   props<{ task: Task }>()
 );
+
+export const deleteTask = createAction(
+  '[Task] Delete Task',
+  props<{ id: number }>()
+);
+
+export const deleteTaskSuccess = createAction(
+  '[Task] Delete Task Success',
+  props<{ id: number }>()
+);
+

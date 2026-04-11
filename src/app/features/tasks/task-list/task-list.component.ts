@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { Task } from '../../../store/models/task.model';
-import { loadTasks, addTask } from '../../../store/actions/task.actions';
+import { loadTasks, addTask, deleteTask } from '../../../store/actions/task.actions';
 
 @Component({
   selector: 'app-task-list',
@@ -37,5 +37,9 @@ export class TaskListComponent implements OnInit {
       this.store.dispatch(addTask({ title: value }));
       input.value = '';
     }
+  }
+
+  deleteTask(id: number) {
+   this.store.dispatch(deleteTask({ id }));
   }
 }

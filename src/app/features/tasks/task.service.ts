@@ -22,4 +22,9 @@ export class TaskService {
             completed: false
         });
     }
+
+    deleteTask(id: number) {
+        return this.http.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
+    }
+
 }
