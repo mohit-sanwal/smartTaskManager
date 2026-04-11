@@ -1,44 +1,41 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject, ChangeDetectionStrategy  } from '@angular/core';
-import { TaskService } from '../task.service';
-import { BehaviorSubject } from 'rxjs';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
-interface Task {
-  id: number;
-  title: string;
-  completed: boolean;
-}
+import { Task } from '../../../store/models/task.model';
+import { loadTasks, addTask } from '../../../store/actions/task.actions';
 
 @Component({
   selector: 'app-task-list',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [CommonModule],
   templateUrl: './task-list.component.html',
-  styleUrl: './task-list.component.css'
+  styleUrl: './task-list.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class TaskListComponent implements OnInit {
-  
 
+  tasks$!: Observable<Task[]>;
 
-    tasks$ = new BehaviorSubject<Task[]>([]);
+  private store = inject(Store<{ tasks: { tasks: Task[] } }>);
 
-    private taskService = inject(TaskService);
+  ngOnInit() {
+    // 🔥 store se data lena
+    this.tasks$ = this.store.select(state => state.tasks.tasks);
 
-    ngOnInit(){
-      this.taskService.getTasks().subscribe(data => {
-        this.tasks$.next(data);
-      })
+    // console.log('this.tasks$', this.tasks$);
+
+    // 🔥 load action dispatch
+    this.store.dispatch(loadTasks());
+  }
+
+  addTask(input: HTMLInputElement) {
+    const value = input.value.trim();
+
+    if (value) {
+      this.store.dispatch(addTask({ title: value }));
+      input.value = '';
     }
-
-    addTask(input: HTMLInputElement) {
-      const value = input.value.trim();
-      if(value) {
-        this.taskService.addTask(value).subscribe(data=> {
-          this.tasks$.next([data, ...this.tasks$.value]);
-          input.value = '';
-        });
-      }
-    }
+  }
 }
