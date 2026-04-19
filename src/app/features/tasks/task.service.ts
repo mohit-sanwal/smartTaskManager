@@ -27,4 +27,11 @@ export class TaskService {
         return this.http.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
     }
 
+    toggleTask(id: number) {
+        return this.http.patch(
+                `https://jsonplaceholder.typicode.com/todos/${id}`,
+            {}
+        );
+    }   
+
 }
