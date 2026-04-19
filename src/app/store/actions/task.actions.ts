@@ -27,3 +27,13 @@ export const deleteTaskSuccess = createAction(
   props<{ id: number }>()
 );
 
+export const toggleTask = createAction(
+  '[Task] Toggle Task',
+  props<{ id: number }>()
+);
+
+export const toggleTaskSuccess = createAction(
+  '[Task] Toggle Task Success',
+  props<{ id: number }>()
+);
+

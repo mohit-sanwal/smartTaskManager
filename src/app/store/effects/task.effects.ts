@@ -13,6 +13,8 @@ import {
   addTaskSuccess,
   deleteTask,
   deleteTaskSuccess,
+  toggleTask,
+  toggleTaskSuccess
 } from '../actions/task.actions';
 
 @Injectable()
@@ -54,4 +56,18 @@ export class TaskEffects {
     )
   )
  );
+
+ togglzTask$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(toggleTask),
+      switchMap(action =>
+        this.taskService.toggleTask(action.id).pipe(
+        map(() => toggleTaskSuccess({ id: action.id }))
+      )
+      )
+    )
+ )
+
+
+
 }

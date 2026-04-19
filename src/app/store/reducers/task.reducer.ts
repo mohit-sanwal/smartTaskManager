@@ -1,7 +1,7 @@
 // reducers/task.reducer.ts
 import { createReducer, on } from '@ngrx/store';
 import { Task } from '../models/task.model';
-import { loadTasksSuccess, addTaskSuccess, deleteTaskSuccess } from '../actions/task.actions';
+import { loadTasksSuccess, addTaskSuccess, deleteTaskSuccess, toggleTaskSuccess } from '../actions/task.actions';
 
 export interface TaskState {
   tasks: Task[];
@@ -31,6 +31,15 @@ export const taskReducer = createReducer(
     ...state,
     tasks: state.tasks.filter(task => task.id !== id)
     })
+  ),
+
+  on(toggleTaskSuccess, (state, { id }) => ({
+  ...state,
+  tasks: state.tasks.map(task =>
+    task.id === id
+      ? { ...task, completed: !task.completed }
+      : task
   )
+}))
   
 );
