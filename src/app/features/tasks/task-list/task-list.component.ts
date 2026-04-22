@@ -31,25 +31,25 @@ export class TaskListComponent implements OnInit {
   }
 
 
-  handleClick(event: Event) {
-    const target = event.target as HTMLElement;
+  // handleClick(event: Event) {
+  //   const target = event.target as HTMLElement;
 
-    const action = target.getAttribute('data-action');
+  //   const action = target.getAttribute('data-action');
 
-    // closest <li> se id nikaal lo
-    const li = target.closest('li');
-    const id = Number(li?.getAttribute('data-id'));
+  //   // closest <li> se id nikaal lo
+  //   const li = target.closest('li');
+  //   const id = Number(li?.getAttribute('data-id'));
 
-    if (!id) return;
+  //   if (!id) return;
 
-    if (action === 'delete') {
-      this.deleteTask(id);
-    }
+  //   if (action === 'delete') {
+  //     this.deleteTask(id);
+  //   }
 
-    if (action === 'toggle') {
-      this.toggleTask(id);
-    }
-  }
+  //   if (action === 'toggle') {
+  //     this.toggleTask(id);
+  //   }
+  // }
 
   addTask(input: HTMLInputElement) {
     const value = input.value.trim();
